@@ -1,37 +1,28 @@
+syntax on
+"autocmd VimEnter '~/.vimrc'
 set nocompatible              " required
 filetype off                  " required
 
 "make background render right way in ubuntu bash
 set t_ut=""
-
 "set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 Plugin 'benmills/vimux'
-
-" highlight comments green
-"highlight Comment ctermfg=green
-
 " colorschemes
- packadd! dracula
- syntax enable
- colorscheme dracula 
+let g:dracula_italic = 0
+let g:dracula_colorterm = 0
+packadd! dracula
+colorscheme dracula
+"highlight Normal ctermbg=None
 
-"make colorschemes work with tmux
-set t_Co=256
 
-" Don't try to be vi compatible
-set nocompatible
+let g:ycm_extra_conf_globlist = ['~dev/gecko/*']
 
 " Helps force plugins to load correctly when it is turned back on below
 filetype off
-
-" TODO: Load plugins here (pathogen or vundle)
-
-" Turn on syntax highlighting
-syntax on
 
 " For plugins to load correctly
 filetype plugin indent on
@@ -44,8 +35,13 @@ set modelines=0
 
 " Show line numbers
 set number
-highlight LineNr ctermfg=yellow 
+highlight LineNr ctermfg=yellow
+highlight Conditional ctermfg=yellow
+highlight Repeat ctermfg=yellow
+highlight Comment ctermfg=green
 
+"colors
+set t_Co=256
 " Show file stats
 set ruler
 
@@ -81,16 +77,14 @@ set hidden
 " Rendering
 set ttyfast
 
-" Status bar
-set laststatus=2
 
 " Last line
 set showmode
 set showcmd
 
 " Searching
-nnoremap / /\v
-vnoremap / /\v
+nnoremap / /
+vnoremap / /
 set hlsearch
 set incsearch
 set ignorecase
