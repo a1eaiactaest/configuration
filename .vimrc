@@ -1,119 +1,41 @@
-syntax on
-"autocmd VimEnter '~/.vimrc'
-set nocompatible              " required
-filetype off                  " required
-
-"make background render right way in ubuntu bash
-set t_ut=""
-"set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Plugin 'benmills/vimux'
-" colorschemes
-let g:dracula_italic = 0
-let g:dracula_colorterm = 0
-packadd! dracula
-colorscheme dracula
-"highlight Normal ctermbg=None
+syntax on 
 
 
-let g:ycm_extra_conf_globlist = ['~dev/gecko/*']
-
-" Helps force plugins to load correctly when it is turned back on below
-filetype off
-
-" For plugins to load correctly
-filetype plugin indent on
-
-" TODO: Pick a leader key
-" let mapleader = ","
-
-" Security
-set modelines=0
-
-" Show line numbers
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+set ai
 set number
-highlight LineNr ctermfg=yellow
-highlight Conditional ctermfg=yellow
-highlight Repeat ctermfg=yellow
+set incsearch "set hlsearch
+set ruler
+set t_Co=256
+set background=dark
+
+
 highlight Comment ctermfg=green
 
-"colors
-set t_Co=256
-" Show file stats
-set ruler
+" Bindings 
+let mapleader = " " " Map space as leader key, default is \
 
-" Blink cursor on error instead of beeping (grr)
-set visualbell
+" Map hjkl to move between vim windows, not going to use much, use tmux windows instead.
+nnoremap <leader>h :wincmd h<CR>
+nnoremap <leader>j :wincmd j<CR>
+nnoremap <leader>l :wincmd l<CR>
+nnoremap <leader>k :wincmd k<CR>
 
-" Encoding
-set encoding=utf-8
+" File tree.
+nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 40<CR>
 
-" Whitespace
-set wrap
-set textwidth=79
-set formatoptions=tcqrn1
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set expandtab
-set noshiftround
+" Resizing vertical windows.
+"nnoremap <leader>+ :vertical resize +5<CR>
+"nnoremap <leader>- :vertical resize -5<CR>
 
-" Cursor motion
-set scrolloff=3
-set backspace=indent,eol,start
-set matchpairs+=<:> " use % to jump between pairs
-runtime! macros/matchit.vim
+" Plugins
+call plug#begin('~/.vim/plugged')
 
-" Move up/down editor lines
-nnoremap j gj
-nnoremap k gk
+Plug 'https://github.com/kien/ctrlp.vim'
+Plug 'https://github.com/ycm-core/YouCompleteMe'
+Plug 'mbbill/undotree'
 
-" Allow hidden buffers
-set hidden
-
-" Rendering
-set ttyfast
-
-
-" Last line
-set showmode
-set showcmd
-
-" Searching
-nnoremap / /
-vnoremap / /
-set hlsearch
-set incsearch
-set ignorecase
-set smartcase
-set showmatch
-set mouse=a
-map <leader><space> :let @/=''<cr> " clear search
-
-" Remap help key.
-inoremap <F1> <ESC>:set invfullscreen<CR>a
-nnoremap <F1> :set invfullscreen<CR>
-vnoremap <F1> :set invfullscreen<CR>
-
-" Textmate holdouts
-
-" Formatting
-map <leader>q gqip
-
-" Visualize tabs and newlines
-set listchars=tab:▸\ ,eol:¬
-" Uncomment this to enable by default:
-" set list " To enable by default
-" Or use your leader key + l to toggle on/off
-map <leader>l :set list!<CR> " Toggle tabs and EOL
-
-"running python by F9
-autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR> 
-autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>   
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call plug#end()

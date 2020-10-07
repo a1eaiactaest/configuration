@@ -1,4 +1,8 @@
-export ZSH="/home/aleaiactaest/.oh-my-zsh"
+export ZSH="/home/piotrek/.oh-my-zsh"
+
 ZSH_THEME="cypher"
-plugins=(git encode64 vagrant)
+
+# Plugins
+plugins=(git)
+
 source $ZSH/oh-my-zsh.sh
