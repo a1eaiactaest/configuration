@@ -6,7 +6,7 @@ set shiftwidth=4
 set expandtab
 set smartindent
 set ai
-set number
+set relativenumber
 set incsearch "set hlsearch
 set ruler
 set t_Co=256
