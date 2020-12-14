@@ -1,19 +1,25 @@
 syntax on 
 
-
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set expandtab
 set smartindent
 set ai
-set relativenumber
-set incsearch "set hlsearch
+set number
+set hlsearch "set hlsearch
 set ruler
-set t_Co=256
+if $TERM == "xterm-256color"
+  set t_Co=256
+endif
 set background=dark
 
-
-highlight Comment ctermfg=green
+highlight Special ctermfg=magenta   gui=none
+highlight Comment ctermfg=green cterm=bold
+highlight String  ctermfg=red
+highlight Number  ctermfg=red
+highlight Identifier ctermfg=lightblue gui=NONE cterm=NONE term=NONE 
+highlight Define ctermfg=magenta
+highlight Include ctermfg=magenta
 
 " Bindings 
 let mapleader = " " " Map space as leader key, default is \
@@ -31,11 +37,3 @@ nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 40<CR>
 "nnoremap <leader>+ :vertical resize +5<CR>
 "nnoremap <leader>- :vertical resize -5<CR>
 
-" Plugins
-call plug#begin('~/.vim/plugged')
-
-Plug 'https://github.com/kien/ctrlp.vim'
-Plug 'https://github.com/ycm-core/YouCompleteMe'
-Plug 'mbbill/undotree'
-
-call plug#end()
