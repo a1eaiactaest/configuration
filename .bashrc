@@ -126,5 +126,5 @@ killd () {
         screen -S "${session}" -X quit;
     done
 }
-export PS1='\[\e[01;37m\]\u\[\e[01;37m\]@\[\e[01;37m\]\h\[\e[01;37m\]:\[\e[01;32m\]\w\[\e[01;37m\]$ \[\e[01;0m\]'
+export PS1='\[\e[01;37m\]\u\[\e[01;37m\]@\[\e[01;37m\]\h\[\e[01;37m\]:\[\e[01;31m\]\w\[\e[01;37m\]$ \[\e[01;0m\]'
 export EDITOR='vim'

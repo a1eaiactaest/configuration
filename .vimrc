@@ -8,6 +8,7 @@ set ai
 set number
 set hlsearch "set hlsearch
 set ruler
+set nowrap
 if $TERM == "xterm-256color"
   set t_Co=256
 endif
