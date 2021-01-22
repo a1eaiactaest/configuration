@@ -9,9 +9,14 @@ set number
 set hlsearch "set hlsearch
 set ruler
 set nowrap
+set noswapfile
+set nobackup
+set undodir=~/.vim/undodir
+set undofile
 if $TERM == "xterm-256color"
   set t_Co=256
 endif
+set visualbell
 set background=dark
 
 highlight Special ctermfg=magenta   gui=none
@@ -37,4 +42,3 @@ nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 40<CR>
 " Resizing vertical windows.
 "nnoremap <leader>+ :vertical resize +5<CR>
 "nnoremap <leader>- :vertical resize -5<CR>
-
