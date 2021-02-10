@@ -5,7 +5,8 @@ set shiftwidth=2
 set expandtab
 set smartindent
 set ai
-set number
+set number relativenumber
+set nu rnu
 set hlsearch "set hlsearch
 set ruler
 set nowrap
@@ -19,13 +20,12 @@ endif
 set visualbell
 set background=dark
 
-highlight Special ctermfg=magenta   gui=none
-highlight Comment ctermfg=green cterm=bold
-highlight String  ctermfg=red
-highlight Number  ctermfg=red
-highlight Identifier ctermfg=lightblue gui=NONE cterm=NONE term=NONE 
-highlight Define ctermfg=magenta
-highlight Include ctermfg=magenta
+"highlight Special ctermfg=magenta   gui=none
+"highlight Comment ctermfg=green cterm=bold
+"highlight String  ctermfg=red
+"highlight Identifier ctermfg=lightblue gui=NONE cterm=NONE term=NONE 
+"highlight Define ctermfg=magenta
+"highlight Include ctermfg=magenta
 
 " Bindings 
 let mapleader = " " " Map space as leader key, default is \
@@ -42,3 +42,24 @@ nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 40<CR>
 " Resizing vertical windows.
 "nnoremap <leader>+ :vertical resize +5<CR>
 "nnoremap <leader>- :vertical resize -5<CR>
+
+" enable true colors
+"if (has('termguicolors'))
+"  set termguicolors
+"endif
+
+" Plugins
+call plug#begin('~/.vim/plugged')
+" Material Community theme
+Plug 'kaicataldo/material.vim', { 'branch': 'main' }
+
+" Gruv box
+Plug 'morhetz/gruvbox'
+
+call plug#end()
+
+" set theme
+"let g:gruvbox_contrast_dark = 'hard'
+colorscheme default_enhanced
+"let g:material_theme_style = 'darker'
+"highlight Number  ctermfg=red
