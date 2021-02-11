@@ -3,7 +3,6 @@ syntax on
 set tabstop=2
 set shiftwidth=2
 set expandtab
-set smartindent
 set ai
 set number relativenumber
 set nu rnu
@@ -44,9 +43,9 @@ nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 40<CR>
 "nnoremap <leader>- :vertical resize -5<CR>
 
 " enable true colors
-"if (has('termguicolors'))
-"  set termguicolors
-"endif
+if (has('termguicolors'))
+  set termguicolors
+endif
 
 " Plugins
 call plug#begin('~/.vim/plugged')
@@ -60,6 +59,8 @@ call plug#end()
 
 " set theme
 "let g:gruvbox_contrast_dark = 'hard'
-colorscheme default_enhanced
+let g:material_theme_style = 'darker-community'
+colorscheme material
+highlight Normal guibg=#000000
 "let g:material_theme_style = 'darker'
 "highlight Number  ctermfg=red
