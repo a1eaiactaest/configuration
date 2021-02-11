@@ -19,6 +19,10 @@ endif
 set visualbell
 set background=dark
 
+" disable annoying pep8 tab length 4
+filetype plugin on 
+autocmd FileType python setlocal noexpandtab shiftwidth=2 softtabstop=2
+
 "highlight Special ctermfg=magenta   gui=none
 "highlight Comment ctermfg=green cterm=bold
 "highlight String  ctermfg=red
