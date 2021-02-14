@@ -19,9 +19,6 @@ endif
 set visualbell
 set background=dark
 
-" disable annoying pep8 tab length 4
-filetype plugin on 
-autocmd FileType python setlocal noexpandtab shiftwidth=2 softtabstop=2
 
 "highlight Special ctermfg=magenta   gui=none
 "highlight Comment ctermfg=green cterm=bold
@@ -32,6 +29,9 @@ autocmd FileType python setlocal noexpandtab shiftwidth=2 softtabstop=2
 
 " Bindings 
 let mapleader = " " " Map space as leader key, default is \
+
+"NERDTree
+nnoremap <leader>nn :NERDTree<cr>
 
 " Map hjkl to move between vim windows, not going to use much, use tmux windows instead.
 nnoremap <leader>h :wincmd h<CR>
@@ -53,18 +53,19 @@ endif
 
 " Plugins
 call plug#begin('~/.vim/plugged')
+Plug 'preservim/nerdtree'
+
 " Material Community theme
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 
 " Gruv box
 Plug 'morhetz/gruvbox'
 
+" Testing themes
+Plug 'ayu-theme/ayu-vim'
 call plug#end()
 
 " set theme
-"let g:gruvbox_contrast_dark = 'hard'
-let g:material_theme_style = 'darker-community'
-colorscheme material
+let ayucolor='dark'
+colorscheme ayu
 highlight Normal guibg=#000000
-"let g:material_theme_style = 'darker'
-"highlight Number  ctermfg=red
