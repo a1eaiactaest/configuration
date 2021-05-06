@@ -1,0 +1,61 @@
+xterm*faceName: SF Mono:style=Bold
+xterm*faceSize: 10
+
+xterm*savelines: 2000
+
+xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+
+XTerm*vt100.translations: #override \
+    Shift Ctrl <Key> C: copy-selection(CLIPBOARD) \n\
+    Shift Ctrl <Key> V: insert-selection(CLIPBOARD)
+
+xterm*foreground: white
+xterm*background: #0a0a0a
+
+
+! Black
+xterm*color0:           #000000
+xterm*color8:           #666666
+! Red
+xterm*color1:           #c74630
+xterm*color9:           #c74630
+! Green
+xterm*color2:           #41bc33
+xterm*color10:          #50e340
+! Yellow
+xterm*color3:           #b4b32b
+xterm*color11:          #b4b32b
+! Bluej
+xterm*color4:           #9274ff
+xterm*color12:          #9274ff
+! Purple
+xterm*color5:           #DE45DB
+xterm*color13:          #DE45DB
+! Cyan
+xterm*color6:           #3CC0CD
+xterm*color14:          #3CC0CD
+! White
+xterm*color7:           #F4F4F4
+xterm*color15:          #F2F2F2
+
+
+
+xterm*rightScrollBar: false
+xterm*ScrollBar: flase
+
+xterm*scrollTtyOutput: true
+
+Xterm*selectToClipboard: true
+
+
+! maybe we can set a smaller dpi?
+Xft.dpi: 90
+
+Xft.antialias: true
+
+! change font size with buttons?
+URxvt.keysym.C-Up: resize-font:bigger
+URxvt.keysym.C-Down: resize-font:smaller
+
+! open urls in place
+URxvt.url-launcher: /usr/bin/chromium

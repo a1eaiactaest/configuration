@@ -16,6 +16,10 @@ set $mod Mod4
 font pango:monospace 8
 
 
+# set monitors in right config
+exec ~/.screenlayout/setscreen.sh
+
+
 # ***** CUSTOMS *****
 for_window [class="^.*"] border pixel 3, title_format " %title "
 # custom colors border  background text 
@@ -38,13 +42,13 @@ client.background       #ffffff
 
 # autostart
 exec --no-startup-id compton -b
-bindsym Print exec scrot 'screeni3_%a-%d%b%y_%H.%M.png' -e 'viewnior ~/Pictures/$f'
+bindsym Print exec scrot '~/Pictures/screeni3_%a-%d%b%y_%H.%M.png' -e 'viewnior ~/Pictures/$f'
 #bindsym $super+l exec i3lock -i ~/.wallpaper.png
 
 
 
 # file manager in 4th workspace
-bindsym $mod+Shift+f workspace 4; exec thunar; focus
+#bindsym $mod+Shift+f workspace 4; exec thunar; focus
 
 # kill
 bindsym $mod+c kill
