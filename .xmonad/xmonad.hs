@@ -1,53 +1,29 @@
-{- Imports
-import XMonad
-import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageDocks
-import XMonad.Util.Run(spawnPipe)
-import XMonad.Util.EZConfig(additionalKeys)
-import System.IO
-
-
-myTerminal = "xterm"
-myBorderWidth = 2
-
---myWorkspaces = [
-
--- Border Colors
-myNormalBorderColor = "#dddddd"
-myFocusedBroderColor = "#ff0000"
-
-
-main = do
-xmproc <- spawnPipe "xmobar"
-xmonad $ defaultConfig
-  { terminal = myTerminal
-  , modMask = mod4Mask     -- Rebind Mod to the Windows key
-  , manageHook = manageDocks <+> manageHook defaultConfig
-  , layoutHook = avoidStruts  $  layoutHook defaultConfig
-  , logHook = dynamicLogWithPP defaultPP
-    { ppOutput = hPutStrLn xmproc
-    , ppOrder = \(ws:_:t:_) -> [ws,t] }
-    , borderWidth = myBorderWidth
-  } `additionalKeys`
-  [ ((mod4Mask .|. shiftMask, xK_z), spawn "xscreensaver-command -lock; xset dpms force off")
-  , ((0, xK_Print), spawn "scrot")
-  ]
--}
---
--- xmonad example config file.
---
--- A template showing all available configuration hooks,
--- and how to override the defaults in your own xmonad.hs conf file.
---
--- Normally, you'd only override those defaults you care about.
---
-
 import XMonad
 import Data.Monoid
 import System.Exit
-import XMonad.Hooks.ManageDocks
+-- Data
+import Data.Ratio ((%)) -- for video
+-- Actions
+import XMonad.Actions.CopyWindow        -- for dwm window style tagging
+-- Util
+import XMonad.Util.EZConfig
+import XMonad.Util.Run (runProcessWithInput, safeSpawn, spawnPipe, hPutStrLn)
 import XMonad.Util.SpawnOnce
-import XMonad.Util.Run
+-- Hooks
+import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
+import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.ManageHelpers (isFullscreen, isDialog,  doFullFloat, doCenterFloat, doRectFloat)
+import XMonad.Hooks.Place (placeHook, withGaps, smart)
+import XMonad.Hooks.SetWMName
+-- import XMonad.Hooks.RefocusLast         -- error could not find module *read more before adding this feature
+ 
+-- Layouts
+import XMonad.Layout.NoBorders
+import XMonad.Layout.Spacing            -- allow spacing between windows
+import XMonad.Layout.GridVariants
+import XMonad.Layout.ResizableTile      -- allow adjust window size in tile mode
+import XMonad.Layout.SubLayouts         -- Layouts inside windows. Excellent.
+import XMonad.Layout.ThreeColumns
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -67,7 +43,7 @@ myClickJustFocuses = False
 
 -- Width of the window border in pixels.
 --
-myBorderWidth   = 1
+myBorderWidth   = 2
 
 -- modMask lets you specify which modkey you want to use. The default
 -- is mod1Mask ("left alt").  You may also consider using mod3Mask
@@ -251,6 +227,11 @@ myLayout = avoidStruts (tiled ||| Mirror tiled ||| Full)
 myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
+    , className =? "confirm"         --> doFloat
+    , className =? "file_progress"   --> doFloat
+    , className =? "dialog"          --> doFloat
+    , className =? "download"        --> doFloat
+    , className =? "error"           --> doFloat
     , className =? "Apple Music"    --> doFloat
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
@@ -272,7 +253,6 @@ myEventHook = mempty
 -- Perform an arbitrary action on each internal state change or X event.
 -- See the 'XMonad.Hooks.DynamicLog' extension for examples.
 --
-myLogHook = return ()
 
 ------------------------------------------------------------------------
 -- Startup hook
@@ -284,6 +264,7 @@ myStartupHook = do
   spawnOnce "nitrogen --restore &"
   spawnOnce "compton &"
   spawnOnce "~/.screenlayout/setscreen.sh"
+  setWMName "LG3D"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -291,8 +272,8 @@ myStartupHook = do
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do  
-  xmoproc <- spawnPipe "xmobar -x 0 /home/prybiec/.config/xmobar/xmobarrc"
-  xmonad $ docks defaults
+  xmproc <- spawnPipe "xmobar -x 0 /home/prybiec/.config/xmobar/xmobarrc"
+  xmonad $ docks $ defaults xmproc
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
@@ -300,7 +281,7 @@ main = do
 --
 -- No need to modify this.
 --
-defaults = def {
+defaults xmproc = def {
       -- simple stuff
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
@@ -319,8 +300,9 @@ defaults = def {
         layoutHook         = myLayout,
         manageHook         = myManageHook,
         handleEventHook    = myEventHook,
-        logHook            = myLogHook,
-        startupHook        = myStartupHook
+        startupHook        = myStartupHook,
+        logHook            = dynamicLogWithPP xmobarPP
+                              { ppOutput = hPutStrLn xmproc }
     }
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.
