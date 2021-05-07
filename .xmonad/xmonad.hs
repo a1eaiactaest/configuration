@@ -131,6 +131,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Run xmessage with a summary of the default keybindings (useful for beginners)
     , ((modm .|. shiftMask, xK_slash ), spawn ("echo \"" ++ help ++ "\" | xmessage -file -"))
+    , ((modm , xK_Print), spawn "scrot ~/Pictures/scrot_%Y-%m-%d-%H-%M-%S.png")
     ]
     ++
 
@@ -216,9 +217,9 @@ myManageHook = composeAll
 myEventHook = mempty
 
 myStartupHook = do 
-  spawnOnce "nitrogen --restore &"
   spawnOnce "compton &"
   spawnOnce "~/.screenlayout/setscreen.sh"
+  spawnOnce "redshift -c ~/.config/redshift.conf &"
   setWMName "LG3D"
 
 -- Execute xmonad and pipe xmobar to it

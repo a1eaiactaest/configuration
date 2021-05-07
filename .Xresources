@@ -48,9 +48,6 @@ xterm*scrollTtyOutput: true
 Xterm*selectToClipboard: true
 
 
-! maybe we can set a smaller dpi?
-Xft.dpi: 90
-
 Xft.antialias: true
 
 ! change font size with buttons?
