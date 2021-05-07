@@ -29,8 +29,6 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
 
-
-
 myTerminal      = "xterm"
 
 
@@ -42,13 +40,13 @@ myClickJustFocuses :: Bool
 myClickJustFocuses = False
 
 
-myBorderWidth   = 2
+myBorderWidth   = 3
 
 myModMask       = mod4Mask --windows key
 
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
+myWorkspaces    = ["1","2","3","4","5","6","7","8","9","0"]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -218,7 +216,7 @@ myEventHook = mempty
 
 myStartupHook = do 
   spawnOnce "compton &"
-  spawnOnce "~/.screenlayout/setscreen.sh"
+  spawnOnce "~/.screenlayout/setscreen2.sh"
   spawnOnce "redshift -c ~/.config/redshift.conf &"
   setWMName "LG3D"
 
@@ -248,7 +246,7 @@ defaults xmproc = def {
         handleEventHook    = myEventHook,
         startupHook        = myStartupHook,
         logHook            = dynamicLogWithPP xmobarPP
-                              { ppOutput = hPutStrLn xmproc }
+                              { ppOutput = hPutStrLn xmproc, ppOrder = \(ws:_:t:_) -> [ws,t], ppTitle = xmobarColor "#ffffff" "", ppCurrent = xmobarColor "white" "" . wrap "<" ">"}
     }
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.

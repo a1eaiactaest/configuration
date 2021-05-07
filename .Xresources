@@ -1,5 +1,5 @@
-xterm*faceName: SF Mono:style=Bold
-xterm*faceSize: 10
+xterm*faceName: xft: Droid Sans Mono
+xterm*faceSize: 14
 
 xterm*savelines: 2000
 
@@ -50,9 +50,8 @@ Xterm*selectToClipboard: true
 
 Xft.antialias: true
 
-! change font size with buttons?
-URxvt.keysym.C-Up: resize-font:bigger
-URxvt.keysym.C-Down: resize-font:smaller
-
-! open urls in place
-URxvt.url-launcher: /usr/bin/chromium
+XTerm.vt100.translations: #override \n\
+  Ctrl <Key> minus: smaller-vt-font() \n\
+  Ctrl <Key> plus: larger-vt-font() \n\
+  Shift Ctrl <Key> C: copy-selection(CLIPBOARD) \n\
+  Shift Ctrl <Key> V: insert-selection(CLIPBOARD)
