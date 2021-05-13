@@ -3,10 +3,10 @@ Config { font = "xft:Droid Sans Mono:size=9"
         , borderColor = "grey"
         , lowerOnStart = True
         , bgColor = "black"
-        , fgColor = "white"
+        , fgColor = "grey"
         , position = Top
         , commands = [  Run Date "%a %b %_d %Y %H:%M" "date" 10
-                      , Run Cpu ["-L","3","-H","50","--normal","white","--high","red"] 10
+                      , Run Cpu ["-L","3","-H","50","--normal","grey","--high","red"] 10
                       , Run Memory ["-t","RAM: <usedratio>%"] 10
                       , Run StdinReader
                       ]

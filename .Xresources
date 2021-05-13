@@ -1,16 +1,12 @@
 xterm*faceName: xft: Droid Sans Mono
-xterm*faceSize: 14
+xterm*faceSize: 13
 
 xterm*savelines: 2000
 
-xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+! xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
 
-XTerm*vt100.translations: #override \
-    Shift Ctrl <Key> C: copy-selection(CLIPBOARD) \n\
-    Shift Ctrl <Key> V: insert-selection(CLIPBOARD)
-
-xterm*foreground: white
-xterm*background: #0a0a0a
+!xterm*foreground: white
+!xterm*background: #0a0a0a
 
 
 ! Black
@@ -48,7 +44,7 @@ xterm*scrollTtyOutput: true
 Xterm*selectToClipboard: true
 
 
-Xft.antialias: true
+!Xft.antialias: true
 
 XTerm.vt100.translations: #override \n\
   Ctrl <Key> minus: smaller-vt-font() \n\

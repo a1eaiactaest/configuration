@@ -24,9 +24,14 @@ import XMonad.Layout.GridVariants
 import XMonad.Layout.ResizableTile      -- allow adjust window size in tile mode
 import XMonad.Layout.SubLayouts         -- Layouts inside windows. Excellent.
 import XMonad.Layout.ThreeColumns
+import XMonad.Layout.Hidden
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
+
+-- https://bbs.archlinux.org/viewtopic.php?pid=1580117#p1580117
+import XMonad.Hooks.EwmhDesktops
+
 
 
 myTerminal      = "xterm"
@@ -46,7 +51,7 @@ myModMask       = mod4Mask --windows key
 
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["1","2","3","4","5","6","7","8","9","0"]
+myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -62,13 +67,17 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
 
     -- launch dmenu
-    , ((modm,               xK_p     ), spawn "dmenu_run")
+    , ((modm,               xK_p     ), spawn "$(yeganesh -x -- -b)")
+
 
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
 
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
+
+    -- full screen window, aka hide xmobar
+    , ((mod4Mask .|. shiftMask, xK_f), sendMessage ToggleStruts)
 
      -- Rotate through the available layout algorithms
     , ((modm,               xK_space ), sendMessage NextLayout)
@@ -114,6 +123,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Deincrement the number of windows in the master area
     , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
+
+    , ((modm, xK_backslash), withFocused hideWindow)
+    , ((modm .|. shiftMask, xK_backslash), popOldestHiddenWindow)
 
     -- Toggle the status bar gap
     -- Use this binding with avoidStruts from Hooks.ManageDocks.
@@ -181,7 +193,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
-myLayout = avoidStruts (tiled ||| Mirror tiled ||| Full)
+myLayout = avoidStruts $ hiddenWindows (tiled ||| Mirror tiled ||| Full)
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -199,25 +211,14 @@ myLayout = avoidStruts (tiled ||| Mirror tiled ||| Full)
 -- > xprop | grep WM_CLASS
 -- and click on the client you're interested in.
 
-myManageHook = composeAll
-    [ className =? "MPlayer"        --> doFloat
-    , className =? "Gimp"           --> doFloat
-    , className =? "confirm"         --> doFloat
-    , className =? "file_progress"   --> doFloat
-    , className =? "dialog"          --> doFloat
-    , className =? "download"        --> doFloat
-    , className =? "error"           --> doFloat
-    , className =? "Apple Music"    --> doFloat
-    , className =? "Pavucontrol"    --> doFloat
-    , resource  =? "desktop_window" --> doIgnore
-    , resource  =? "kdesktop"       --> doIgnore ]
 
-myEventHook = mempty
+--myEventHook = mempty
 
 myStartupHook = do 
   spawnOnce "compton &"
   spawnOnce "~/.screenlayout/setscreen2.sh"
   spawnOnce "redshift -c ~/.config/redshift.conf &"
+  spawnOnce "feh --bg-fill /home/prybiec/Pictures/wallpapers/569434.jpg"
   setWMName "LG3D"
 
 -- Execute xmonad and pipe xmobar to it
@@ -242,11 +243,12 @@ defaults xmproc = def {
 
       -- hooks, layouts
         layoutHook         = myLayout,
-        manageHook         = myManageHook,
-        handleEventHook    = myEventHook,
+        --handleEventHook    = myEventHook,
+        -- fixes chrome full screen issue
+        handleEventHook    = fullscreenEventHook,
         startupHook        = myStartupHook,
         logHook            = dynamicLogWithPP xmobarPP
-                              { ppOutput = hPutStrLn xmproc, ppOrder = \(ws:_:t:_) -> [ws,t], ppTitle = xmobarColor "#ffffff" "", ppCurrent = xmobarColor "white" "" . wrap "<" ">"}
+                              { ppOutput = hPutStrLn xmproc, ppOrder = \(ws:_:t:_) -> [ws,t], ppTitle = xmobarColor "grey" "", ppCurrent = xmobarColor "grey" "" . wrap "<" ">", ppVisible = wrap "[" "]"}
     }
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.
